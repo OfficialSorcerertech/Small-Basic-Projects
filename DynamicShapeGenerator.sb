@@ -1,0 +1,89 @@
+'I'm very proud of this app. It has over 85 lines of code!
+'Note from future me - this was made years ago when I was first really getting into programming. I find the above comment kinda cute.
+
+createdbyname = "ICTman1076"
+nameofsoftware = "Dynamic Shapes Drawer"
+version = "v1.1"
+'DO NOT EDIT THIS PART!
+createdby = ("This piece of software was coded in Small Basic by " + createdbyname + ".")
+copyright = ("(c) Sorcerertech 2015. All rights reserved. " + createdby)
+TextWindow.WriteLine("Loading " + nameofsoftware + " " + version + " by " + createdbyname + ".")
+TextWindow.WriteLine(copyright)
+'Initialization scripts
+TextWindow.Show()
+'change settings
+TextWindow.Write("In milliseconds write how big a delay you would like between graphics updates... ")
+delay = TextWindow.ReadNumber()
+TextWindow.Write("Would you like to generate Stars (*), triangles (t) or rectangles (r)? ")
+selection = Text.ConvertToLowerCase(TextWindow.Read())
+'A bit more intialization...
+GraphicsWindow.PenColor = "MEDIUMBLUE"
+GraphicsWindow.PenWidth = 10
+'...and a bit of information!
+TextWindow.WriteLine("If you want to makee any changes to the settings, just restart the app. Then")
+TextWindow.WriteLine("you can change any aspect you would like.")
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("DO NOT CLOSE THIS WINDOW! This window is reprocessing the drawing when it gets")
+TextWindow.WriteLine("resized.")
+TextWindow.Title = "Dynamic Shapes Drawer CALCULATOR"
+GraphicsWindow.Title = "Dynamic Shapes by ICTman1076"
+If selection = "r" then
+  Goto Square
+ElseIf selection = "*" then
+  Goto Star
+ElseIf selection = "t" then
+  Goto Triangle
+EndIf
+
+'Drawing scripts
+Star:
+GraphicsWindow.Clear()
+Program.Delay(100)
+StarLoop:
+GraphicsWindow.Clear()
+'These lines of code creates a cross.
+GraphicsWindow.DrawLine(GraphicsWindow.Width/2,10,GraphicsWindow.width/2,GraphicsWindow.Height-10)
+GraphicsWindow.DrawLine(10,GraphicsWindow.Height/2,GraphicsWindow.width-10,GraphicsWindow.Height/2)
+
+'These lines of code creates a 8 point star.
+GraphicsWindow.DrawLine(10,10,GraphicsWindow.width-10,GraphicsWindow.Height-10)
+GraphicsWindow.DrawLine(GraphicsWindow.Width-10,10,10,GraphicsWindow.Height-10)
+
+'These lines of code generates the final 16 point star.
+GraphicsWindow.DrawLine(GraphicsWindow.Width/4,10,GraphicsWindow.width/4*3,GraphicsWindow.Height-10)
+GraphicsWindow.DrawLine(GraphicsWindow.Width/4*3,10,GraphicsWindow.Width/4,GraphicsWindow.Height-10)
+GraphicsWindow.DrawLine(10,GraphicsWindow.Height/4,GraphicsWindow.Width-10,GraphicsWindow.Height/4*3)
+GraphicsWindow.DrawLine(10,GraphicsWindow.Height/4*3,GraphicsWindow.Width-10,GraphicsWindow.Height/4)
+Program.Delay(delay)
+Goto StarLoop
+
+Square:
+GraphicsWindow.Clear()
+Program.Delay(100)
+SquareLoop:
+GraphicsWindow.Clear()
+'These lines of code creates an equals sign.
+GraphicsWindow.DrawLine(10,10,GraphicsWindow.width-10,10)
+GraphicsWindow.DrawLine(10,GraphicsWindow.height-10,GraphicsWindow.width-10,GraphicsWindow.height-10)
+
+'These lines of code generate the final square.
+GraphicsWindow.DrawLine(10,10,10,GraphicsWindow.Height-10)
+GraphicsWindow.DrawLine(GraphicsWindow.Width-10,10,GraphicsWindow.Width-10,GraphicsWindow.Height-10)
+
+Program.Delay(delay)
+Goto SquareLoop
+
+Triangle:
+GraphicsWindow.Clear()
+Program.Delay(100)
+TriangleLoop:
+GraphicsWindow.Clear()
+'These lines of code creates thee bottom line.
+GraphicsWindow.DrawLine(10,GraphicsWindow.height-10,GraphicsWindow.width-10,GraphicsWindow.height-10)
+
+'These lines of code generate the diagonals, thus creating the final triangle
+GraphicsWindow.DrawLine(GraphicsWindow.Width/2,10,10,GraphicsWindow.Height-10)
+GraphicsWindow.DrawLine(GraphicsWindow.Width/2,10,GraphicsWindow.Width-10,GraphicsWindow.Height-10)
+
+Program.Delay(delay)
+Goto TriangleLoop
