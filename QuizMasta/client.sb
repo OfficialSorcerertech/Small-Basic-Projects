@@ -1,0 +1,46 @@
+createdbyname = "ICTman1076"
+nameofsoftware = "QuizMasta"
+version = "v1.0b"
+'DO NOT EDIT THIS PART!
+createdby = ("This piece of software was coded in Small Basic by " + createdbyname + ".")
+copyright = ("(c) Sorcerertech 2015. All rights reserved. " + createdby)
+TextWindow.WriteLine("Loading " + nameofsoftware + " " + version + " by " + createdbyname + ".")
+TextWindow.WriteLine(copyright)
+'PUT YOUR CODE AFTER THIS PART!
+TextWindow.Write("Type in the directory where the quiz files are: ")
+homedir = TextWindow.Read()
+If Text.EndsWith(homedir, "\") Or Text.EndsWith(homedir, "/") Then
+  Goto cheese
+EndIf
+homedir = homedir + "\"  
+cheese:
+If homedir + "info.stinfo" = b
+  Goto typeb
+EndIf
+typeb:
+title = File.ReadLine(homedir + "info.stinfo", 1)
+by = File.ReadLine(homedir + "info.stinfo", 2)
+TextWindow.WriteLine("Welcome to " + title + " by " + by + "!")
+TextWindow.WriteLine("When you're ready to begin, press the spacebar!")
+TextWindow.PauseWithoutMessage()
+QuestionNumberToGoTo = 1
+q:
+TextWindow.Clear()
+TextWindow.WriteLine(File.ReadContents(homedir + "questions\" + QuestionNumberToGoTo + "\questiontext.stq") + "Choose from:" + File.ReadContents(homedir + "questions\" + QuestionNumberToGoTo + "\listofanswers.stq"))
+answer = TextWindow.Read()
+If File.ReadLine(homedir + "questions\" + QuestionNumberToGoTo + "\answers\" + answer + ".sta", 1) = "q" Then
+  QuestionNumberToGoTo = File.ReadLine(homedir + "questions\" + QuestionNumberToGoTo + "\answers\" + answer + ".sta", 2)
+  Goto q
+ElseIf File.ReadLine(homedir + "questions\" + QuestionNumberToGoTo + "\answers\" + answer + ".sta", 1) = "r" Then
+  ResultNumber = File.ReadLine(homedir + "questions\" + QuestionNumberToGoTo + "\answers\" + answer + ".sta", 2)
+  Goto r
+EndIf
+r:
+TextWindow.Clear()
+TextWindow.WriteLine(File.ReadLine(homedir + "results\" + ResultNumber + ".str", 1))
+TextWindow.WriteLine("")
+TextWindow.WriteLine(File.ReadLine(homedir + "results\" + ResultNumber + ".str", 2))
+TextWindow.WriteLine("Retry? Press any key to do so!")
+TextWindow.PauseWithoutMessage()
+TextWindow.Clear()
+Goto cheese
