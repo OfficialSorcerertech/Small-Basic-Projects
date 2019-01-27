@@ -1,0 +1,179 @@
+createdbyname = "ICTman1076"
+nameofsoftware = "QuizMasta CREATOR"
+version = "v1.0b"
+'DO NOT EDIT THIS PART!
+createdby = ("This piece of software was coded in Small Basic by " + createdbyname + ".")
+copyright = ("(c) Sorcerertech 2015. All rights reserved. " + createdby)
+TextWindow.WriteLine("Loading " + nameofsoftware + " " + version + " by " + createdbyname + ".")
+TextWindow.WriteLine(copyright)
+'PUT YOUR CODE AFTER THIS PART!
+File.CreateDirectory("C:\st\quizmastacreator")
+TextWindow.Write("Type in the directory where you want the quiz files to be: ")
+homedir = TextWindow.Read()
+If Text.EndsWith(homedir, "/") Then
+  Goto cheese
+EndIf
+homedir = homedir + "/"  
+cheese:
+File.CreateDirectory(homedir + "questions\")
+File.CreateDirectory(homedir + "results\")
+TextWindow.Write("What would you like the title to be? ")
+title = TextWindow.Read()
+TextWindow.Write("Who would you like the author to be?")
+author = TextWindow.Read()
+File.WriteLine(homedir + "info.stinfo", 1, title)
+File.WriteLine(homedir + "info.stinfo", 2, author)
+File.WriteLine(homedir + "info.stinfo", 2, "b")
+TextWindow.WriteLine("Files written.")
+Program.Delay(2345)
+TextWindow.Clear()
+onresult = 1
+onquestion = 1
+r:
+TextWindow.Clear()
+TextWindow.WriteLine("Let's begin by writing the results.")
+TextWindow.writeline("")
+TextWindow.Write("What is the title of result " + onresult + "? ")
+temp = TextWindow.Read()
+File.WriteLine(homedir + "results\" + onresult + ".str",1,temp)
+TextWindow.WriteLine("File written.")
+TextWindow.Write("What is the description of result " + onresult + "? ")
+temp = TextWindow.Read()
+File.WriteLine(homedir + "results\" + onresult + ".str",2,temp)
+TextWindow.WriteLine("File written.")
+TextWindow.WriteLine("")
+retry:
+TextWindow.WriteLine("Would you like to create another result (r) or start")
+TextWindow.WriteLine("writing questions (q)?")
+TextWindow.Write("Type in the letter of your selection and press enter. ")
+temp = TextWindow.Read()
+If temp = "r" Then
+  TextWindow.Clear()
+  onresult = onresult+1
+  Goto r
+ElseIf temp = "q" then
+  TextWindow.Clear()
+  Goto q
+Else
+  TextWindow.WriteLine("INVALID SELECTION!")
+  Goto retry
+EndIf
+q:
+File.CreateDirectory(homedir + "questions\" + onquestion + "\answers\")
+TextWindow.WriteLine("We'll create all the questions first and exclude the answers for now.")
+TextWindow.WriteLine("")
+TextWindow.Write("Write question " + onquestion + " here please: ")
+temp = TextWindow.Read()
+File.WriteContents(homedir + "questions\" + onquestion + "\questiontext.stq",temp)
+TextWindow.WriteLine("File written.")
+retry2:
+TextWindow.WriteLine("Would you like to create another question (q) or start")
+TextWindow.WriteLine("writing answers to the questions (a)?")
+TextWindow.Write("Type in the letter of your selection and press enter. ")
+temp = TextWindow.Read()
+If temp = "q" Then
+  TextWindow.Clear()
+  onquestion = onquestion+1
+  Goto q
+ElseIf temp = "a" then
+  gotoq = onquestion
+  writingansforq = 1
+  writingans = 1
+  TextWindow.Clear()
+  Goto a
+Else
+  TextWindow.WriteLine("INVALID SELECTION!")
+  Goto retry2
+EndIf
+a:
+TextWindow.WriteLine("What is answer " + writingans + " for the following question:")
+TextWindow.WriteLine(File.ReadContents(homedir + "questions\" + writingansforq + "\questiontext.stq"))
+anstext = TextWindow.Read()
+If writingans = 1 Then
+  File.WriteContents(homedir + "questions\" + writingansforq + "\listofanswers.stq", anstext)
+Else
+  File.AppendContents(homedir + "questions\" + writingansforq + "\listofanswers.stq", ", " + anstext)
+EndIf
+retry3:
+TextWindow.WriteLine("Ok, and if they select this answer, should they go to a result (r)")
+TextWindow.Write("or a question (q)?")
+temp = TextWindow.Read()
+If temp = "q" Then
+  Goto aq
+ElseIf temp = "r" then
+  Goto ar
+Else
+  TextWindow.WriteLine("INVALID SELECTION!")
+  Goto retry3
+EndIf
+aq:
+TextWindow.Write("Which question number? ")
+temp = TextWindow.Read()
+retry4:
+TextWindow.WriteLine("So you'd like to take them to this question:")
+TextWindow.WriteLine(File.ReadContents(homedir + "questions\" + temp + "\questiontext.stq"))
+TextWindow.Write("Is this correct (y) or not (n)?")
+ynconfirm = TextWindow.Read()
+If ynconfirm = "y" Then
+  
+  File.WriteLine(homedir + "questions\" + writingansforq + "\answers\" + anstext + ".sta",1,"q")
+  File.WriteLine(homedir + "questions\" + writingansforq + "\answers\" + anstext + ".sta",2,temp)
+  Goto a2
+ElseIf ynconfirm = "n" then
+  Goto aq
+Else
+  TextWindow.WriteLine("INVALID SELECTION!")
+  Goto retry4
+EndIf
+ar:
+TextWindow.Write("Which result number? ")
+temp = TextWindow.Read()
+retry5:
+TextWindow.WriteLine("So you'd like to take them to this result:")
+TextWindow.WriteLine(File.Readline(homedir + "results\" + temp + ".str", 1))
+TextWindow.Write("Is this correct (y) or not (n)?")
+ynconfirm = TextWindow.Read()
+If ynconfirm = "y" Then
+  File.WriteLine(homedir + "questions\" + writingansforq + "\answers\" + anstext + ".sta",1,"r")
+  File.WriteLine(homedir + "questions\" + writingansforq + "\answers\" + anstext + ".sta",2,temp)
+  Goto a2
+ElseIf ynconfirm = "n" then
+  Goto ar
+Else
+  TextWindow.WriteLine("INVALID SELECTION!")
+  Goto retry5
+EndIf
+a2:
+If gotoq = writingansforq Then
+  TextWindow.WriteLine("Would you like to write another answer (a) or finish editing (f)?")
+  ynconfirm = TextWindow.Read()
+  If ynconfirm = "a" Then
+    TextWindow.Clear()
+    writingans = writingans+1
+    Goto a
+  ElseIf ynconfirm = "f" then
+    Goto finish
+  Else
+    TextWindow.WriteLine("INVALID SELECTION!")
+    Goto a2
+  EndIf
+Else
+  TextWindow.WriteLine("Would you like to write another answer (a) or start making answers for the next question (q)?")
+  ynconfirm = TextWindow.Read()
+  If ynconfirm = "a" Then
+    TextWindow.Clear()
+    writingans = writingans+1
+    Goto a
+  ElseIf ynconfirm = "q" then
+    writingans = 1
+    writingansforq = writingansforq+1
+    Goto a
+  Else
+    TextWindow.WriteLine("INVALID SELECTION!")
+    Goto a2
+  EndIf
+EndIf
+finish:
+TextWindow.WriteLine("Well done! You made a quiz!")
+TextWindow.WriteLine("The files are saved at: " + homedir)
+TextWindow.WriteLine("Have a great day!")
