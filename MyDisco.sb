@@ -1,0 +1,38 @@
+'I have no idea what this does, but I have a feeling this deserves a
+'SEIZURE WARNING! STROBE LIGHTS! SEIZURE WARNING! STROBE LIGHTS!
+
+createdbyname = "ICTman1076"
+nameofsoftware = "MyDisco"
+version = "v1.0"
+editingStopsHere = "DO NOT EDIT THIS PART!"
+createdby = ("This piece of software was coded in Small Basic by " + createdbyname + ".")
+copyright = ("(c) Sorcerertech 2015. All rights reserved. " + createdby)
+TextWindow.WriteLine("Loading " + nameofsoftware + " " + version + " by " + createdbyname + ".")
+TextWindow.WriteLine(copyright)
+editingResumesHere = "PUT YOUR CODE AFTER THIS PART!"
+TextWindow.Write("Starting app in 3...")
+Program.Delay(1000)
+TextWindow.Write("2...")
+Program.Delay(1000)
+TextWindow.Write("1...")
+Program.Delay(1000)
+For i = 0 To 100000000
+  random = Math.GetRandomNumber(7)
+  If random = 1 then
+    color = "GREEN"
+  ElseIf random = 2 then
+    color = "BLUE"
+  ElseIf random = 3 Then
+    color = "RED"
+  ElseIf random = 4 Then
+    color = "PURPLE"
+  ElseIf random = 5 Then
+    color = "MAGENTA"
+  ElseIf random = 6 Then
+    color = "HOT PINK"
+  ElseIf random = 7 Then
+    color = "CYAN"
+  EndIf
+  TextWindow.Write(i)
+  TextWindow.ForegroundColor = color
+EndFor
