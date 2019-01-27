@@ -1,0 +1,37 @@
+createdbyname = "ICTman1076"
+nameofsoftware = "CursorTrack"
+version = "v1.1"
+editingStopsHere = "DO NOT EDIT THIS PART!"
+createdby = ("This piece of software was coded in Small Basic by " + createdbyname + ".")
+copyright = ("(c) Sorcerertech 2015. All rights reserved. " + createdby)
+TextWindow.WriteLine("Loading " + nameofsoftware + " " + version + " by " + createdbyname + ".")
+TextWindow.WriteLine(copyright)
+editingResumesHere = "PUT YOUR CODE AFTER THIS PART!"
+TextWindow.Write("Type in  you'd like the log to be saved: C:\st\cursorlog\")
+path = "C:\st\cursorlog\" + TextWindow.Read()
+File.CreateDirectory("C:\st\cursorlog")
+File.AppendContents(path, "Log for " + Clock.Date + "...")
+Loop:
+oldx = Mouse.MouseX
+oldY = Mouse.MouseY
+Program.Delay(1)
+If Mouse.IsLeftButtonDown Then
+  File.AppendContents(path, "Left Button Pressed (coords: X: " + Mouse.MouseX + " Y: " + Mouse.MouseY + ")")
+EndIf
+If Mouse.IsRightButtonDown Then
+  File.AppendContents(path, "Right Button Pressed (coords: X: " + Mouse.MouseX + " Y: " + Mouse.MouseY + ")")
+EndIF
+  If oldx = Mouse.mouseX And oldY = Mouse.Mousey Then
+  Goto Loop
+Else
+  Goto track
+EndIf
+track:
+properties = "X: " + Mouse.MouseX + " Y: " + Mouse.MouseY
+TextWindow.Write("Mouse Properties: " + properties)
+If File.AppendContents(path, "[" + Clock.Hour + ":" + Clock.Minute + ":" + Clock.Second + "." + Clock.Millisecond + "]" + properties) = "SUCCESS" then
+  TextWindow.WriteLine(" (save successful)")
+Else
+  TextWindow.WriteLine(" (save failed - Is access denied?)")
+EndIf
+Goto loop
