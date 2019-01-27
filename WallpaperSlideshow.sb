@@ -1,0 +1,26 @@
+createdbyname = "ICTman1076"
+nameofsoftware = "EZWallpaperSlideshow"
+version = "v1.0"
+editingStopsHere = "DO NOT EDIT THIS PART!"
+createdby = ("This piece of software was coded in Small Basic by " + createdbyname + ".")
+copyright = ("(c) Sorcerertech 2015. All rights reserved. " + createdby)
+TextWindow.WriteLine("Loading " + nameofsoftware + " " + version + " by " + createdbyname + ".")
+TextWindow.WriteLine(copyright)
+start:
+Program.Delay(2579)
+TextWindow.Clear()
+Program.Delay(50)
+TextWindow.Hide()
+files = file.GetFiles("C:\st\ezwallpaperslideshow")
+If files = "FAILED" then
+  File.CreateDirectory("C:\st\ezwallpaperslideshow")
+  TextWindow.WriteLine("Please download some pictures to C:\st\ezwallpaperslideshow\")
+  TextWindow.WriteLine("and then press the spacebar to continue.")
+  TextWindow.PauseWithoutMessage()
+  Goto start
+Else
+  loop:
+  Desktop.SetWallPaper(files[Math.GetRandomNumber(Array.GetItemCount(files))])
+  Program.Delay(5000)
+Goto loop
+EndIf
