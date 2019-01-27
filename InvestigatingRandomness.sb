@@ -1,0 +1,26 @@
+'I've no clue what this does.
+
+l:
+CoD = Math.GetRandomNumber(6)
+If CoD = 1 Then
+  one = one+1
+ElseIf CoD = 2 then
+  two = two+1
+ElseIf CoD = 3 then
+  three = three+1
+ElseIf CoD = 4 then
+  four = four+1
+ElseIf CoD = 5 then
+  five = five+1
+ElseIf CoD = 6 then
+  six = six+1
+EndIf
+TextWindow.Clear()
+TextWindow.WriteLine(one)
+TextWindow.WriteLine(two)
+TextWindow.WriteLine(three)
+TextWindow.WriteLine(four)
+TextWindow.WriteLine(five)
+TextWindow.WriteLine(six)
+Program.Delay(500)
+goto l
