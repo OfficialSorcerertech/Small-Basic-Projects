@@ -1,0 +1,338 @@
+createdbyname = "ICTman1076 & pinksheep8426"
+
+nameofsoftware = "Cookie Clicker"
+
+version = "v3" 'Set out version like this: v1.0 or v1.0beta etc.
+
+'DO NOT EDIT THIS PART!
+
+createdby = ("This piece of software was coded in Small Basic by " + createdbyname + ".")
+
+copyright = ("(c) Sorcerertech 2015. All rights reserved. " + createdby)
+
+TextWindow.WriteLine("Loading " + nameofsoftware + " " + version + " by " + createdbyname + ".")
+
+TextWindow.WriteLine(copyright)
+
+'Put your code after this line!
+
+Controls.ButtonClicked = OnButtonClicked
+
+GraphicsWindow.MouseDown = ongraphicswindowclick
+
+
+homedir = "C:\st\cookieclicker\"
+
+GraphicsWindow.FontSize = 20
+
+If Array.GetItemCount(File.GetFiles(homedir)) > 0 then
+  
+  TextWindow.WriteLine("Images already grabbed, no need to redownload.")
+  
+  TextWindow.WriteLine("Grabbing last save...")
+  
+  cookies = file.ReadLine(homedir + "cookies.sts",1)
+  
+  cps = file.ReadLine(homedir + "cookies.sts",2)
+  
+  If File.ReadLine(homedir + "cookies.sts",3) = "" then
+    
+    autoclickerprice = 100
+    
+  Else
+    
+    autoclickerprice = File.ReadLine(homedir + "cookies.sts",3)
+    
+  EndIf
+  
+  If File.ReadLine(homedir + "cookies.sts",4) = "" then
+    
+    stprice = 10000000
+    
+  Else
+    
+    stprice = File.ReadLine(homedir + "cookies.sts",4)
+    
+  EndIf
+  
+  If File.ReadLine(homedir + "cookies.sts",5) = "" then
+    
+    grannyprice = 150
+    
+  Else
+    
+    grannyprice = File.ReadLine(homedir + "cookies.sts",5)
+    
+  EndIf
+  
+  If File.ReadLine(homedir + "cookies.sts",6) = "" then
+    
+    bakerprice = 200
+    
+  Else
+    
+    bakerprice = File.ReadLine(homedir + "cookies.sts",6)
+    
+  EndIf
+  
+  If File.ReadContents(homedir + "graphicsupdate.txt") = "" then
+    
+    delay = 250
+    
+    divider = 4
+    
+  Else
+    
+    delay = File.ReadContents(homedir + "graphicsupdate.txt")
+    
+    divider = 1000/delay
+    
+  EndIf
+  
+  If File.ReadLine(homedir + "cookies.sts",7) = "" Then
+    
+    multiplierprice = 500
+    
+    multiplier = 1 
+    
+  Else
+    
+    multiplierprice = File.ReadLine(homedir + "cookies.sts", 7)
+    
+    multiplier = File.ReadLine(homedir + "cookies.sts", 8)
+    
+  EndIf
+  
+Else
+  
+  TextWindow.WriteLine("Downloading materials required from sources...")
+  
+  TextWindow.WriteLine("(Dir: C:\st\cookieclicker\cookie.png)")
+  
+  File.CreateDirectory(homedir)
+  
+  File.CopyFile(Network.DownloadFile("http://sorcerertech.pcriot.com/external/sbasic/cookieclicker/bestcookie.png"), homedir + "cookie.png")
+  
+  multiplier = 1
+  
+   File.WriteLine(homedir + "cookies.sts",1, cookies)
+
+ File.WriteLine(homedir + "cookies.sts",2, cps)
+
+ File.WriteLine(homedir + "cookies.sts",3, autoclickerprice)
+
+ File.WriteLine(homedir + "cookies.sts",4, stprice)
+
+ File.WriteLine(homedir + "cookies.sts",5, grannyprice)
+
+ File.WriteLine(homedir + "cookies.sts",6, bakerprice)
+
+ File.WriteLine(homedir + "cookies.sts",7, multiplierprice)
+
+ File.WriteLine(homedir + "cookies.sts",8, multiplier)
+
+ Sound.PlayChimes()
+  
+EndIF
+
+TextWindow.WriteLine("Initialising GraphicsWindow and setting properties...")
+
+GraphicsWindow.Left = 10
+
+GraphicsWindow.Top = 10
+
+GraphicsWindow.Width = Desktop.Width-34
+
+GraphicsWindow.Height = Desktop.Height-57-40
+
+GraphicsWindow.Title = nameofsoftware + " " + version + " by " + createdbyname
+
+TextWindow.WriteLine("Drawing stuff for first time...")
+
+GraphicsWindow.DrawImage(homedir + "cookie.png", GraphicsWindow.Width/2-101, GraphicsWindow.Height/2-101)
+
+GraphicsWindow.DrawText(0,0,"Cookies: " + cookies)
+
+GraphicsWindow.DrawText(0,20,"CPS: " + cps)
+Controls.AddButton("Save",0,60)
+
+Controls.AddButton("Buy Auto clicker (+0.1 CPS, " + autoclickerprice + " cookies)",0,140)
+
+Controls.AddButton("Buy Granny Smith (+0.3 CPS, " + grannyprice + " cookies)",0,180)
+
+Controls.AddButton("Buy a Baker (+1 CPS, " + bakerprice + " cookies)",0,220)
+
+Controls.AddButton("Add 1 to your multiplier (" + multiplierprice + " cookies)",0,100)
+
+Controls.AddButton("Buy Sorcerer Tech (+1000000 CPS, " + stprice + " cookies)",0,260)
+
+
+TextWindow.WriteLine("Init successful. Have fun!!")
+
+
+
+reset:
+
+x = Mouse.MouseX
+
+y = Mouse.MouseY
+
+If x = 0 And y = 0 then
+  
+  GraphicsWindow.ShowMessage("Stop hiding in that corner, come back and click cookies!","Stop hiding")
+  
+endif
+
+
+oldcookies = rndcookies
+
+cookies = cookies+cps/divider
+
+rndcookies = Math.Ceiling(cookies)
+
+If oldcookies = rndcookies then
+  
+  TextWindow.WriteLine("No need to redraw.")
+  
+Else
+  
+  TextWindow.WriteLine("Redrawing...")
+  GraphicsWindow.BrushColor = "White"
+  GraphicsWindow.FillRectangle(0,0,1000,50)
+  GraphicsWindow.BrushColor = "SteelBlue"
+  GraphicsWindow.DrawText(0,0,"Cookies: " + Math.Ceiling(cookies))
+  
+  GraphicsWindow.DrawText(0,30,"CPS: " + cps)
+  
+  GraphicsWindow.DrawText(300,0,"Multiplier: " + multiplier)
+EndIf
+
+Program.Delay(delay)
+
+resetno = resetno+1
+
+Goto reset
+
+
+
+Sub OnButtonClicked
+  
+  Sound.PlayClick()
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Save" Then
+    
+    File.WriteLine(homedir + "cookies.sts",1, cookies)
+    
+    File.WriteLine(homedir + "cookies.sts",2, cps)
+    
+    File.WriteLine(homedir + "cookies.sts",3, autoclickerprice)
+    
+    File.WriteLine(homedir + "cookies.sts",4, stprice)
+    
+    File.WriteLine(homedir + "cookies.sts",5, grannyprice)
+    
+    File.WriteLine(homedir + "cookies.sts",6, bakerprice)
+    
+    File.WriteLine(homedir + "cookies.sts",7, multiplierprice)
+    
+    File.WriteLine(homedir + "cookies.sts",8, multiplier)
+    
+    Sound.PlayChimes()
+    
+  ElseIf Controls.GetButtonCaption(Controls.LastClickedButton) = "Buy Auto clicker (+0.1 CPS, " + autoclickerprice + " cookies)" then
+    
+    If cookies > autoclickerprice-1 then
+      
+      cookies = cookies-autoclickerprice
+      
+      cps = cps + 0.1
+      
+      autoclickerprice = Math.Ceiling(autoclickerprice + autoclickerprice/10)
+      Controls.AddButton("Buy Auto clicker (+0.1 CPS, " + autoclickerprice + " cookies)",0,140)
+    Else
+      
+      GraphicsWindow.ShowMessage("You don't have enough cookies!", "Whoops!")
+      
+    EndIf
+    
+  ElseIf Controls.GetButtonCaption(Controls.LastClickedButton) = "Buy Sorcerer Tech (+1000000 CPS, " + stprice + " cookies)" then
+    
+    If cookies > autoclickerprice-1 then
+      
+      cookies = cookies-autoclickerprice
+      
+      cps = cps + 1000000
+      
+      stprice = Math.Ceiling(stprice + stprice/10)
+      Controls.AddButton("Buy Sorcerer Tech (+1000000 CPS, " + stprice + " cookies)",0,260)
+    Else
+      
+      GraphicsWindow.ShowMessage("You don't have enough cookies!", "Whoops!")
+      
+    EndIf
+    
+  ElseIf Controls.GetButtonCaption(Controls.LastClickedButton) = "Buy Granny Smith (+0.3 CPS, " + grannyprice + " cookies)" then
+    
+    If cookies > grannyprice-1 then
+      
+      cookies = cookies-grannyprice
+      
+      cps = cps + 0.3
+      
+      grannyprice = Math.Ceiling(grannyprice + grannyprice/10)
+      Controls.AddButton("Buy Granny Smith (+0.3 CPS, " + grannyprice + " cookies)",0,180)
+    Else
+      
+      GraphicsWindow.ShowMessage("You don't have enough cookies!", "Whoops!")
+      
+    EndIf
+    
+  ElseIf Controls.GetButtonCaption(Controls.LastClickedButton) = "Buy a Baker (+1 CPS, " + bakerprice + " cookies)" then
+    
+    If cookies > bakerprice-1 then
+      
+      cookies = cookies-bakerprice
+      
+      cps = cps + 1
+      
+      bakerprice = Math.Ceiling(bakerprice + bakerprice/10)
+      Controls.AddButton("Buy a Baker (+1 CPS, " + bakerprice + " cookies)",0,220)
+    Else
+      
+      GraphicsWindow.ShowMessage("You don't have enough cookies!", "Whoops!")
+      
+    EndIf
+    
+  ElseIf Controls.GetButtonCaption(Controls.LastClickedButton) = "Add 1 to your multiplier (" + multiplierprice + " cookies)" then
+    
+    If cookies > multiplierprice-1 then
+      
+      cookies = cookies-multiplierprice
+      
+      multiplier = multiplier+1
+      
+      multiplierprice = Math.Ceiling(multiplierprice + multiplierprice/10)
+      Controls.AddButton("Add 1 to your multiplier (" + multiplierprice + " cookies)",0,100)
+    Else
+      
+      GraphicsWindow.ShowMessage("You don't have enough cookies!", "Whoops!")
+      
+    EndIf
+    
+  EndIf
+  
+EndSub
+
+Sub ongraphicswindowclick
+  
+  If GraphicsWindow.MouseX > GraphicsWindow.Width/2-101 And GraphicsWindow.MouseX < GraphicsWindow.Width/2+101 Then
+    
+    If GraphicsWindow.MouseY > GraphicsWindow.Height/2-101 And GraphicsWindow.MouseY < GraphicsWindow.Height/2+101 Then
+      
+      cookies=cookies+1*multiplier
+      
+    EndIf
+    
+  EndIf
+  
+EndSub
