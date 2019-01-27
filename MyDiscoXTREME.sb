@@ -1,0 +1,26 @@
+'SEIZURE WARNING! Strobe Lights! SEIZURE WARNING! Strobe Lights! SEIZURE WARNING! Strobe Lights!
+'SEIZURE WARNING! Strobe Lights! SEIZURE WARNING! Strobe Lights! SEIZURE WARNING! Strobe Lights!
+'SEIZURE WARNING! Strobe Lights! SEIZURE WARNING! Strobe Lights! SEIZURE WARNING! Strobe Lights!
+
+createdbyname = "ICTman1076"
+nameofsoftware = "MyDisco XTREME"
+version = "v2"
+createdby = ("This piece of software was coded in Small Basic by " + createdbyname + ".")
+copyright = ("(c) Sorcerertech 2015. All rights reserved. " + createdby)
+TextWindow.WriteLine("Loading " + nameofsoftware + " " + version + " by " + createdbyname + ".")
+TextWindow.WriteLine(copyright)
+TextWindow.WriteLine("Warning! This app may cause epileptic seizures. Press enter if you understand.")
+uselessvar = TextWindow.Read()
+TextWindow.Write("Type in how many colors a second you would like the screen to flash with: ")
+rate = TextWindow.ReadNumber()
+delay = 1000/rate
+GraphicsWindow.Title = "Rate of flashes: " + rate + "/sec. // " + nameofsoftware
+  GraphicsWindow.Top = 0
+  GraphicsWindow.Left = 0
+  GraphicsWindow.Width = 1000
+  GraphicsWindow.Height = 1000
+loop:
+  Program.Delay(delay)
+  color = GraphicsWindow.GetRandomColor()
+  GraphicsWindow.BackgroundColor = color
+Goto Loop
